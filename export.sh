@@ -16,7 +16,6 @@ newfile=${EXPORT_DIR}/${bn}
 mkdir -p ${EXPORT_DIR}
 cp -a ${FILE} $newfile
 
-echo "-"
 while read -r line; do
     needle=$(echo "$line" | sed -rn 's/^(.*)\xC2\xA0(.*)$/\1/p')
     file=$(echo "$line" | sed -rn 's/^(.*)\xC2\xA0(.*)$/\2/p')
@@ -27,5 +26,4 @@ while read -r line; do
     sed -i -n "/${needle}/!{p;d;}; r $tempfile" $newfile
     rm $tempfile
 done < <(sed -rn 's/^(.*include <(\S+)>.*$)/\1\xC2\xA0\2/p' $newfile)
-echo "-"
 
