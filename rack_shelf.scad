@@ -16,8 +16,6 @@
         https://www.thingiverse.com/thing:2484395
  */
 
-include <honeycomb.scad>
-
 /* [Rack] */
 // Rack size (inches)
 rack_size = 10; // [5:20]
@@ -110,6 +108,8 @@ u_height = 44.5;
 usable_width = rack_width - rail_overlap * 2;
 units = ceil(shelf_size.y / (u_height-shelf_thickness*2));
 rack_height = u_height * units;
+
+include <honeycomb.scad>
 
 module cuboid(top, bottom, y, z, center=false) {
     p0 = top > bottom ? [(top - bottom)/2, 0] : [0 ,0];
@@ -293,7 +293,7 @@ difference() {
                         }
                     }
                 }
-                t2_lmax = (usable_width - shelf_size.x) / 2;
+                t2_lmax = (usable_width - shelf_size.x - shelf_thickness*2) / 2;
                 t2 = shelf_size.z * 0.7 >= 25 ? shelf_size.z * 0.7 : shelf_size.z;
                 t2_l = 25 <= t2_lmax ? 25 : t2_lmax;
                 t2_offset = a * (t2_l * 2 + shelf_thickness * 2 + shelf_size.x);
