@@ -11,10 +11,10 @@ if [ ! -f "$FILE" ]; then
     exit 1
 fi
 bn=$(basename $FILE)
-newfile=${EXPORT_DIR}/${bn}
+newfile="${EXPORT_DIR}/${bn}"
 
-mkdir -p ${EXPORT_DIR}
-cp -a ${FILE} $newfile
+mkdir -p "${EXPORT_DIR}"
+cp -a "${FILE}" "$newfile"
 
 while read -r line; do
     needle=$(echo "$line" | sed -rn 's/^(.*)\xC2\xA0(.*)$/\1/p')
@@ -23,7 +23,7 @@ while read -r line; do
     echo "// ### Begin inline ${needle} ###" > $tempfile
     cat $file >> $tempfile
     echo "// ### End inline ${needle} ###" >> $tempfile
-    sed -i -n "/${needle}/!{p;d;}; r $tempfile" $newfile
+    sed -i -n "/${needle}/!{p;d;}; r $tempfile" "$newfile"
     rm $tempfile
-done < <(sed -rn 's/^(.*include <(\S+)>.*$)/\1\xC2\xA0\2/p' $newfile)
+done < <(sed -rn 's/^(.*include <(\S+)>.*$)/\1\xC2\xA0\2/p' "$newfile")
 
