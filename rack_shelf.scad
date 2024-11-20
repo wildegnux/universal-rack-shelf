@@ -221,7 +221,7 @@ difference() {
         }
         translate([0, 0, front_plate_thickness]) {
             // Top shelf
-            y_padding = (u_height - shelf_size.y) / 2;
+            y_padding = (rack_height - shelf_size.y) / 2;
             x_padding = rack_width/2 - shelf_size.x/2;
             top_thickness = shelf_top_thickness <= y_padding ? shelf_top_thickness : y_padding;
             top_width = shelf_size.x + shelf_thickness * 2;
