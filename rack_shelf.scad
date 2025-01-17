@@ -298,10 +298,12 @@ difference() {
                 t2_l = 25 <= t2_lmax ? 25 : t2_lmax;
                 t2_offset = a * (t2_l * 2 + shelf_thickness * 2 + shelf_size.x);
                 translate([x_padding - t2_l - shelf_thickness +t2_offset, y_padding, 0]) {
-                    rotate([90, 0, 180*a]) {
-                        linear_extrude(shelf_thickness) {
-                            honey_shape(shelf_thickness, shelf_hex_diameter, shelf_hex_wall, honey_offset=shelf_hex_offset) {
-                                polygon([[0, 0], [t2_l, t2], [t2_l, 0]]);
+                    mirror([0,a,0]) {
+                        rotate([a?-90:90, 180*a, 0]) {
+                            linear_extrude(shelf_thickness) {
+                                honey_shape(shelf_thickness, shelf_hex_diameter, shelf_hex_wall, honey_offset=shelf_hex_offset) {
+                                    polygon([[0, 0], [t2_l, t2], [t2_l, 0]]);
+                                }
                             }
                         }
                     }
