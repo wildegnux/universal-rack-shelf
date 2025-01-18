@@ -1,6 +1,7 @@
 {
     "parameterSets": {
         "design default values": {
+            "front_plate_corder_radius": "2",
             "front_plate_thickness": "3.5",
             "keystone_left_count": "0",
             "keystone_left_format": "circle",
@@ -28,6 +29,7 @@
             "shelf_hex_diameter": "8",
             "shelf_hex_offset": "[0, 1]",
             "shelf_hex_wall": "2",
+            "shelf_hole_corner_radius": "0",
             "shelf_screw": "0",
             "shelf_screw_1": "[10, 15, 3, 8]",
             "shelf_screw_2": "[70, 15, 3, 8]",
@@ -41,6 +43,7 @@
             "u_height": "44.5"
         },
         "unifi_us-8-60w": {
+            "front_plate_corder_radius": "2",
             "front_plate_thickness": "3.5",
             "keystone_left_count": "0",
             "keystone_left_format": "circle",
@@ -68,6 +71,7 @@
             "shelf_hex_diameter": "8",
             "shelf_hex_offset": "[0, 1]",
             "shelf_hex_wall": "2",
+            "shelf_hole_corner_radius": "0",
             "shelf_screw": "0",
             "shelf_screw_1": "[10, 15, 3, 8]",
             "shelf_screw_2": "[70, 15, 3, 8]",

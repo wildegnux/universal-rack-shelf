@@ -21,6 +21,8 @@
 rack_size = 10; // [5:20]
 // Thickness of front plate
 front_plate_thickness = 3.5;
+// Corner radius for front plate (0 for no rounded corners)
+front_plate_corder_radius = 0;
 // Width of overlap over the rail
 rail_overlap = 15.875;
 // Depth of overlap over the rail
@@ -33,6 +35,8 @@ rail_hole_position = "corner"; // ["corner", "center"]
 /* [Shelf] */
 // width, height, depth
 shelf_size = [148, 30.5, 100];
+// Radius for shelf hole corners
+shelf_hole_corner_radius = 0;
 // Thickness of shelf walls
 shelf_thickness = 3;
 // Size of holes in hexagonal pattern
@@ -141,6 +145,21 @@ module honey_shape(wall, honey_dia, honey_wall, honey_offset=[0, 0], honey_max=[
     }
 }
 
+module rsquare(size=[10, 10], radius=2, center=false, $fn=100) {
+    if(radius > 0) {
+        tx = center == true ? radius - (size.x / 2) : radius;
+        ty = center == true ? radius - (size.y / 2) : radius;
+        translate( [ tx, ty, 0 ] ) {
+            minkowski() {
+                square([size.x - 2 * radius, size.y - 2 * radius]);
+                circle( radius );
+            }
+        }
+    } else {
+        square(size, center=center);
+    }
+}
+
 difference() {
     union() {
         // Baseplate and holes
@@ -148,7 +167,7 @@ difference() {
             linear_extrude(front_plate_thickness) {
                 difference() {
                     // Baseplate
-                    square([rack_width, rack_height]);
+                    rsquare([rack_width, rack_height], front_plate_corder_radius);
                     // Screwholes
                     for (i = [0 : units - 1]) {
                         y_offset = i * u_height;
@@ -162,7 +181,7 @@ difference() {
                     }
                     // Hole for shelf
                     translate([rack_width / 2, rack_height / 2, 0]) {
-                        square([shelf_size.x, shelf_size.y], center=true);
+                        rsquare([shelf_size.x, shelf_size.y], shelf_hole_corner_radius, center=true);
                     }
                 }
             }
@@ -314,8 +333,8 @@ difference() {
     // Notch
     if(notch != "none") {
         notch_offset = 
-            notch == "left" ? rack_width/2 + shelf_size.x/2 - notch_size.x : 
-            notch == "right" ? rack_width/2 - shelf_size.x/2 :
+            notch == "left" ? rack_width/2 + shelf_size.x/2 - notch_size.x - shelf_hole_corner_radius : 
+            notch == "right" ? rack_width/2 - shelf_size.x/2 + shelf_hole_corner_radius :
             /*center*/ rack_width/2 - notch_size.x/2;
         translate([notch_offset, rack_height/2 + shelf_size.y/2, notch_size.z]) {
             color("red") rotate([0, 90, 0]) linear_extrude(notch_size.x) polygon([[0,0], [notch_size.z, notch_size.y], [notch_size.z, 0]]);
