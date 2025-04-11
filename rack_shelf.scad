@@ -174,7 +174,14 @@ difference() {
                         for (y = rail_hole_position == "corner" ? [6.375, 38.125] : [22.25]) {
                             for (x = [7.938, rack_width-7.938]) {
                                 translate([x, y_offset + y, 0]) {
-                                    circle(d=rail_hole_diameter, $fn=200);
+                                    // add tolerances with spaced out holes for racks that aren't 100% compliant with spec.
+                                    //circle(d=rail_hole_diameter, $fn=200);                                    
+                                    hull(){
+                                        translate([-2.75,0,0])
+                                        circle(d=rail_hole_diameter, $fn=200);
+                                        translate([2.75,0,0])
+                                        circle(d=rail_hole_diameter, $fn=200);
+                                    }
                                 }
                             }
                         }
