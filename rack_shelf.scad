@@ -31,6 +31,8 @@ rail_overlap_depth = 0.5;
 rail_hole_diameter = 6.1;
 // Position of screwholes for attaching to rack
 rail_hole_position = "corner"; // ["corner", "center"]
+// Elongated rail holes for attaching to racks that are not to spec
+rail_hole_elongated = false; // [true, false]
 
 /* [Shelf] */
 // width, height, depth
@@ -174,7 +176,19 @@ difference() {
                         for (y = rail_hole_position == "corner" ? [6.375, 38.125] : [22.25]) {
                             for (x = [7.938, rack_width-7.938]) {
                                 translate([x, y_offset + y, 0]) {
-                                    circle(d=rail_hole_diameter, $fn=200);
+                                    if (rail_hole_elongated)
+                                    {
+                                        hull(){
+                                            translate([-2.75,0,0])
+                                            circle(d=rail_hole_diameter, $fn=200);
+                                            translate([2.75,0,0])
+                                            circle(d=rail_hole_diameter, $fn=200);
+                                        }
+                                    } 
+                                    else
+                                    {
+                                        #circle(d=rail_hole_diameter, $fn=200);
+                                    }
                                 }
                             }
                         }
