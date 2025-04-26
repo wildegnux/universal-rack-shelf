@@ -33,6 +33,8 @@ rail_hole_diameter = 6.1;
 rail_hole_position = "corner"; // ["corner", "center"]
 // Elongated rail holes for attaching to racks that are not to spec
 rail_hole_elongated = false; // [true, false]
+// Size in rack units (default calculate automatically). Note that selecting a size not matching your hole height may cause strange gemoetry
+rack_units = "auto"; // [ "auto", 1, 2, 3, 4, 5 ]
 
 /* [Shelf] */
 // width, height, depth
@@ -112,7 +114,8 @@ keystone_left_indent_thickness = 1.5;
 rack_width = rack_size * 25.4;
 u_height = 44.5;
 usable_width = rack_width - rail_overlap * 2;
-units = ceil(shelf_size.y / (u_height-shelf_thickness*2));
+// Interesting string to int conversion using ord()...
+units = rack_units == "auto" ? ceil(shelf_size.y / (u_height-shelf_thickness*2)) : ord(rack_units)-ord("0");
 rack_height = u_height * units;
 
 include <honeycomb.scad>
